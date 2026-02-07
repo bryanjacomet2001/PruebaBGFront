@@ -38,7 +38,7 @@ export class Login {
       if (response && response.token) {
         localStorage.setItem('token_inventario', response.token);
       }
-    this.router.navigate(['/home/dashboard']);
+    this.router.navigate(['/dashboard']);
   },
   error: (err) => {
     console.error('Hubo un error', err);

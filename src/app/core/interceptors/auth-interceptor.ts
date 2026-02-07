@@ -8,24 +8,33 @@ import { SweetAlertService } from '../../shared/services/SweetAlertService';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthServices);
   const router = inject(Router);
-  const token = authService.getToken();
   const sweetAlertService = inject(SweetAlertService);
 
-  let authReq = req;
-  if (token) {
-    authReq = req.clone({
-      setHeaders: { Authorization: `Bearer ${token}` }
-    });
+  const token = authService.getToken();
+
+  if (req.url.includes('iniciarSesion')) {
+    return next(req);
   }
 
-  return next(req).pipe(
-    catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
-        sweetAlertService.info('Su sesión ha caducado. Por favor, inicie sesión nuevamente.');
-        localStorage.removeItem('token');
-        router.navigate(['/login']);
+  if (token) {
+    const authReq = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`
       }
-      return throwError(() => error);
-    })
-  );
+    });
+
+    return next(authReq).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          localStorage.removeItem('token_inventario');
+          sweetAlertService.info("Su sesión ha caducado por favor vuelva a iniciar sesión");
+          router.navigate(['auth/login']);
+        }
+        return throwError(() => error);
+      })
+    );
+  }
+
+
+  return next(req);
 };
