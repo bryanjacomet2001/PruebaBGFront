@@ -1,0 +1,73 @@
+<div class="container-fluid p-3">
+  <div class="d-flex align-items-center mb-4">
+    <h2 class="mb-0 h4 fw-bold text-dark">Registrar Inventario</h2>
+  </div>
+
+  <form [formGroup]="inventoryForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="row g-3">
+
+      <div class="col-12">
+        <label class="form-label fw-bold text-muted small text-uppercase">Producto</label>
+        <select class="form-select form-select-lg border-0 bg-light shadow-sm"
+                [class.is-invalid]="isInvalid('productoId')"
+                formControlName="productoId">
+          <option value="" disabled>Seleccione el producto</option>
+          @for (prod of productList(); track prod.id) {
+            <option [value]="prod.id">{{ prod.nombre }}</option>
+          }
+        </select>
+        <div class="invalid-feedback">Debe seleccionar un producto.</div>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label fw-bold text-muted small text-uppercase">Proveedor</label>
+        <select class="form-select form-select-lg border-0 bg-light shadow-sm"
+                [class.is-invalid]="isInvalid('proveedorId')"
+                formControlName="proveedorId">
+          <option value="" disabled>Seleccione el proveedor</option>
+          @for (prov of providersList(); track prov.id) {
+            <option [value]="prov.id">{{ prov.nombre }}</option>
+          }
+        </select>
+        <div class="invalid-feedback">Debe seleccionar un proveedor.</div>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label fw-bold text-muted small text-uppercase">Precio de Venta</label>
+        <div class="input-group shadow-sm has-validation">
+          <span class="input-group-text border-0 bg-light text-success fw-bold">$</span>
+          <input type="number" class="form-control form-control-lg border-0 bg-light"
+                 [class.is-invalid]="isInvalid('precio')"
+                 formControlName="precio" placeholder="0.00">
+          <div class="invalid-feedback">El precio debe ser mayor a 0.</div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label fw-bold text-muted small text-uppercase">Stock Inicial</label>
+        <input type="number" class="form-control form-control-lg border-0 bg-light shadow-sm"
+               [class.is-invalid]="isInvalid('stock')"
+               formControlName="stock" placeholder="Ingrese la cantidad inicial">
+        <div class="invalid-feedback">Ingrese un número entero mayor a 0.</div>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label fw-bold text-muted small text-uppercase">Número de Lote</label>
+        <input type="text" class="form-control form-control-lg border-0 bg-light shadow-sm"
+               [class.is-invalid]="isInvalid('lote')"
+               formControlName="lote" placeholder="Ej: LOTE-101">
+        <div class="invalid-feedback">El lote es obligatorio (mín. 4 caracteres).</div>
+      </div>
+
+    </div>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+      <button type="button" class="btn btn-light text-secondary px-4 fw-semibold" (click)="onClose()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-primary px-5 fw-semibold shadow">
+        <i class="bi bi-check-lg me-2"></i>Guardar Registro
+      </button>
+    </div>
+  </form>
+</div>

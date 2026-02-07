@@ -1,0 +1,67 @@
+<div class="bg-light min-vh-100 d-flex align-items-center justify-content-center p-3">
+  <div class="card shadow-lg border-0" style="max-width: 400px; width: 100%; border-radius: 1rem;">
+    <div class="card-body p-4 p-md-5">
+
+      <div class="text-center mb-4">
+        <h2 class="fw-bold h4">Gestión de Inventarios</h2>
+        <p class="text-muted small">Por favor, ingresa a tu cuenta</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="needs-validation">
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-uppercase text-muted">Usuario</label>
+          <div class="input-group has-validation">
+            <span class="input-group-text bg-white border-end-0" [class.border-danger]="isInvalid('usuario')">
+              <i class="bi bi-person text-primary"></i>
+            </span>
+            <input
+              type="text"
+              formControlName="usuario"
+              class="form-control border-start-0 ps-0 py-2"
+              [class.is-invalid]="isInvalid('usuario')"
+              placeholder="Nombre de usuario">
+
+              @if (loginForm.get('usuario')?.errors?.['required'])
+              {
+                <div class="invalid-feedback">El usuario es obligatorio.</div>
+              }
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label small fw-semibold text-uppercase text-muted">Contraseña</label>
+          <div class="input-group has-validation">
+            <span class="input-group-text bg-white border-end-0" [class.border-danger]="isInvalid('password')">
+              <i class="bi bi-key text-primary"></i>
+            </span>
+            <input
+              type="password"
+              formControlName="password"
+              class="form-control border-start-0 ps-0 py-2"
+              [class.is-invalid]="isInvalid('password')"
+              placeholder="••••••••">
+
+              @if (loginForm.get('password')?.errors?.['required'])
+              {
+                <div class="invalid-feedback" >La contraseña es obligatoria.</div>
+              }
+
+              @if (loginForm.get('password')?.errors?.['minlength'])
+              {
+                <div class="invalid-feedback" > Debe tener al menos 6 caracteres..</div>
+              }
+
+            </div>
+          </div>
+        <button
+          type="submit"
+          [disabled]="loginForm.invalid"
+          class="btn btn-primary w-100 py-2 fw-bold shadow-sm custom-btn">
+          Entrar al Sistema
+        </button>
+
+      </form>
+    </div>
+  </div>
+</div>
